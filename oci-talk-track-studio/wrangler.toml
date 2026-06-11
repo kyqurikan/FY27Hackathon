@@ -1,4 +1,4 @@
-name = "oci-talk-track-studio"
+name = "fy27hackathon2"
 compatibility_date = "2026-06-11"
 main = "worker.mjs"
 
