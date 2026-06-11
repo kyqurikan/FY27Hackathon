@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Oracle OCI Talk Track Studio</title>
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="brand">
+          <div class="brand-mark">ORACLE</div>
+          <div>
+            <strong>OCI Talk Track Studio</strong>
+            <span>Sales intelligence workspace</span>
+          </div>
+        </div>
+        <nav class="nav" aria-label="Primary">
+          <button class="nav-item is-active" data-view="analyze">Analyze</button>
+          <button class="nav-item" data-view="accounts">Accounts</button>
+          <button class="nav-item" data-view="governance">Governance</button>
+          <button class="nav-item" data-view="admin">Admin</button>
+          <button class="nav-item" data-view="settings">Settings</button>
+        </nav>
+        <div class="sidebar-footer">
+          <span class="label">Workspace</span>
+          <strong>Oracle North America</strong>
+          <small>Enterprise demo tenant</small>
+        </div>
+      </aside>
+
+      <main class="main">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">Hackathon submission</p>
+            <h1>Account-aware OCI positioning from a company website</h1>
+          </div>
+          <div class="topbar-actions">
+            <label class="select-label" for="roleSelect">Demo user</label>
+            <select id="roleSelect">
+              <option value="u-001">Maya Chen - Sales Rep</option>
+              <option value="u-002">Jordan Ellis - Sales Manager</option>
+              <option value="u-003">Priya Raman - Admin</option>
+            </select>
+          </div>
+        </header>
+
+        <section id="analyze" class="view is-visible">
+          <div class="work-grid">
+            <section class="panel input-panel">
+              <div class="panel-header">
+                <div>
+                  <p class="eyebrow">Core workflow</p>
+                  <h2>Analyze a public company website</h2>
+                </div>
+                <span class="status-pill live">Live analysis</span>
+              </div>
+              <form id="analyzeForm" class="url-form">
+                <label for="companyUrl">Company website URL</label>
+                <div class="input-row">
+                  <input id="companyUrl" name="companyUrl" type="url" placeholder="https://www.example.com" value="https://www.dropbox.com">
+                  <button type="submit" class="primary-btn">Analyze</button>
+                </div>
+                <div class="quick-links" aria-label="Sample URLs">
+                  <button type="button" data-url="https://www.dropbox.com">Dropbox</button>
+                  <button type="button" data-url="https://www.clevelandclinic.org">Cleveland Clinic</button>
+                  <button type="button" data-url="https://www.shopify.com">Shopify</button>
+                  <button type="button" data-url="https://www.redhat.com">Red Hat</button>
+                </div>
+              </form>
+              <div class="before-after">
+                <div>
+                  <span>Before</span>
+                  <p>Manual research, generic decks, unsupported assumptions, inconsistent rep prep.</p>
+                </div>
+                <div>
+                  <span>After</span>
+                  <p>Website evidence, OCI fit, persona talk tracks, objections, exports, audit trail.</p>
+                </div>
+              </div>
+              <div id="loadingState" class="loading-state" hidden>
+                <div class="loader"></div>
+                <div>
+                  <strong>Reviewing public website content</strong>
+                  <p>Crawling priority pages, extracting business signals, and scoring OCI services.</p>
+                </div>
+              </div>
+              <div id="errorState" class="error-state" hidden></div>
+            </section>
+
+            <section class="panel proof-panel">
+              <div class="panel-header">
+                <div>
+                  <p class="eyebrow">Rubric proof</p>
+                  <h2>Why judges should care</h2>
+                </div>
+              </div>
+              <div class="rubric-list">
+                <div><strong>Problem severity</strong><span>Sales reps lose time turning public account research into credible cloud positioning.</span></div>
+                <div><strong>Market scope</strong><span>Every enterprise sales team doing account-based selling faces this prep burden.</span></div>
+                <div><strong>Solution fit</strong><span>The first action is the natural rep workflow: enter a company website.</span></div>
+                <div><strong>Demo proof</strong><span>Outputs include evidence, confidence, editable talk tracks, exports, and audit history.</span></div>
+                <div><strong>Differentiation</strong><span>Combines account evidence, OCI service mapping, AI governance, and enterprise controls.</span></div>
+              </div>
+            </section>
+          </div>
+
+          <section id="analysisResults" class="results" hidden>
+            <div class="result-header">
+              <div>
+                <p class="eyebrow">Account brief</p>
+                <h2 id="companyName">Company</h2>
+                <p id="companySummary" class="muted"></p>
+              </div>
+              <div class="result-actions">
+                <button id="copyTalkTrackBtn" class="secondary-btn">Copy Talk Track</button>
+                <button id="exportMarkdownBtn" class="secondary-btn">Export Markdown</button>
+                <button id="printBtn" class="secondary-btn">Print PDF</button>
+              </div>
+            </div>
+
+            <div class="metric-grid">
+              <div class="metric"><span>Industry</span><strong id="industryMetric">-</strong></div>
+              <div class="metric"><span>Signals</span><strong id="signalsMetric">-</strong></div>
+              <div class="metric"><span>Top OCI fit</span><strong id="topServiceMetric">-</strong></div>
+              <div class="metric"><span>Review state</span><strong id="reviewMetric">-</strong></div>
+            </div>
+
+            <div class="content-grid">
+              <section class="panel">
+                <div class="panel-header">
+                  <div>
+                    <p class="eyebrow">Detected signals</p>
+                    <h3>Business and technology priorities</h3>
+                  </div>
+                </div>
+                <div id="signalsList" class="stack"></div>
+              </section>
+
+              <section class="panel">
+                <div class="panel-header">
+                  <div>
+                    <p class="eyebrow">OCI fit map</p>
+                    <h3>Recommended Oracle Cloud positioning</h3>
+                  </div>
+                </div>
+                <div id="recommendationsList" class="stack"></div>
+              </section>
+            </div>
+
+            <section class="panel talktrack-panel">
+              <div class="panel-header">
+                <div>
+                  <p class="eyebrow">Sales workspace</p>
+                  <h3>Editable talk track</h3>
+                </div>
+                <div class="segmented" role="tablist" aria-label="Talk track sections">
+                  <button class="is-selected" data-talk-tab="overview">Overview</button>
+                  <button data-talk-tab="personas">Personas</button>
+                  <button data-talk-tab="objections">Objections</button>
+                  <button data-talk-tab="email">Email</button>
+                </div>
+              </div>
+              <div id="talkTrackContent"></div>
+              <div class="review-row">
+                <label for="reviewStatus">Human review status</label>
+                <select id="reviewStatus">
+                  <option>Needs review</option>
+                  <option>Reviewed</option>
+                  <option>Approved for customer use</option>
+                </select>
+                <button id="saveReviewBtn" class="primary-btn">Save Review</button>
+              </div>
+            </section>
+          </section>
+        </section>
+
+        <section id="accounts" class="view">
+          <div class="panel">
+            <div class="panel-header">
+              <div>
+                <p class="eyebrow">Saved accounts</p>
+                <h2>Analysis history</h2>
+              </div>
+              <input id="accountSearch" class="search-input" type="search" placeholder="Search accounts">
+            </div>
+            <div id="accountsList" class="account-list"></div>
+          </div>
+        </section>
+
+        <section id="governance" class="view">
+          <div class="content-grid">
+            <section class="panel">
+              <div class="panel-header">
+                <div>
+                  <p class="eyebrow">Trust model</p>
+                  <h2>AI governance and citations</h2>
+                </div>
+              </div>
+              <div id="governanceContent" class="stack">
+                <p class="muted">Run an analysis to see website citations, official Oracle documentation, confidence methods, and review controls.</p>
+              </div>
+            </section>
+            <section class="panel">
+              <div class="panel-header">
+                <div>
+                  <p class="eyebrow">Guardrails</p>
+                  <h2>Claim discipline</h2>
+                </div>
+              </div>
+              <div class="control-list">
+                <div><strong>Facts</strong><span>Website snippets and Oracle documentation links.</span></div>
+                <div><strong>Assumptions</strong><span>Likely priorities inferred from public language.</span></div>
+                <div><strong>Recommendations</strong><span>OCI positioning that must be reviewed before customer use.</span></div>
+                <div><strong>Audit</strong><span>Every create and edit action is recorded for enterprise accountability.</span></div>
+              </div>
+            </section>
+          </div>
+        </section>
+
+        <section id="admin" class="view">
+          <div class="metric-grid admin-metrics">
+            <div class="metric"><span>Total analyses</span><strong id="adminTotal">0</strong></div>
+            <div class="metric"><span>Review rate</span><strong id="adminReviewRate">0%</strong></div>
+            <div class="metric"><span>Avg recommendations</span><strong id="adminAvgRecs">0</strong></div>
+            <div class="metric"><span>Audit events</span><strong id="adminAuditEvents">0</strong></div>
+          </div>
+          <div class="content-grid">
+            <section class="panel">
+              <div class="panel-header">
+                <div>
+                  <p class="eyebrow">Usage</p>
+                  <h2>Top OCI recommendations</h2>
+                </div>
+              </div>
+              <div id="topServices" class="stack"></div>
+            </section>
+            <section class="panel">
+              <div class="panel-header">
+                <div>
+                  <p class="eyebrow">Enterprise readiness</p>
+                  <h2>Controls and integrations</h2>
+                </div>
+              </div>
+              <div id="integrationsList" class="control-list"></div>
+            </section>
+          </div>
+          <section class="panel">
+            <div class="panel-header">
+              <div>
+                <p class="eyebrow">Audit trail</p>
+                <h2>Recent events</h2>
+              </div>
+            </div>
+            <div id="auditList" class="audit-list"></div>
+          </section>
+        </section>
+
+        <section id="settings" class="view">
+          <div class="content-grid">
+            <section class="panel">
+              <div class="panel-header">
+                <div>
+                  <p class="eyebrow">Workspace settings</p>
+                  <h2>Enterprise controls</h2>
+                </div>
+              </div>
+              <div class="settings-grid">
+                <label><span>Require human review</span><input type="checkbox" checked></label>
+                <label><span>Include Oracle docs citations</span><input type="checkbox" checked></label>
+                <label><span>Separate facts and assumptions</span><input type="checkbox" checked></label>
+                <label><span>Retain analyses for 180 days</span><input type="checkbox" checked></label>
+              </div>
+            </section>
+            <section class="panel">
+              <div class="panel-header">
+                <div>
+                  <p class="eyebrow">API readiness</p>
+                  <h2>Connector endpoints</h2>
+                </div>
+              </div>
+              <div class="api-list">
+                <code>POST /api/analyze</code>
+                <code>GET /api/analyses</code>
+                <code>PATCH /api/analyses/:id</code>
+                <code>GET /api/admin/metrics</code>
+                <code>GET /api/export/:id.md</code>
+              </div>
+            </section>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <div id="toast" class="toast" hidden></div>
+    <script src="/app.js"></script>
+  </body>
+</html>

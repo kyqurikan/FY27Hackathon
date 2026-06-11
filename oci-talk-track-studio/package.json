@@ -1,0 +1,19 @@
+{
+  "name": "oci-talk-track-studio",
+  "version": "1.0.0",
+  "description": "Oracle-branded SaaS demo that analyzes a company website and generates OCI sales talk tracks.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": [
+    "oracle",
+    "oci",
+    "sales",
+    "hackathon",
+    "saas"
+  ],
+  "author": "",
+  "license": "UNLICENSED"
+}
