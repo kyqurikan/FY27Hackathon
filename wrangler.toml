@@ -1,0 +1,9 @@
+name = "oci-talk-track-studio"
+compatibility_date = "2026-06-11"
+main = "oci-talk-track-studio/worker.mjs"
+
+[assets]
+directory = "oci-talk-track-studio/public"
+binding = "ASSETS"
+not_found_handling = "single-page-application"
+run_worker_first = ["/api/*"]

@@ -46,6 +46,23 @@ Open:
 http://127.0.0.1:4173
 ```
 
+## Deploy To Cloudflare Workers
+
+The repository includes Wrangler configuration for both common layouts:
+
+- Run `npx wrangler deploy` from the repository root.
+- Or run `npx wrangler deploy` from `oci-talk-track-studio/`.
+
+The Cloudflare deployment uses `worker.mjs` for `/api/*` routes and serves the static UI from `public/`.
+
+If your Cloudflare build settings ask for a deploy command, use:
+
+```bash
+npx wrangler deploy
+```
+
+No separate build output directory is required because `wrangler.toml` points Wrangler directly at the static assets directory.
+
 If port `4173` is already in use:
 
 ```bash
