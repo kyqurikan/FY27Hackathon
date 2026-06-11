@@ -115,23 +115,44 @@ async function analyzeUrl(url) {
   setError("");
   results.hidden = true;
   try {
-    const response = await fetch("/api/analyze", {
+    const response = await fetchJson("/api/analyze", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ url, userId: state.currentUserId })
     });
-    const payload = await response.json();
-    if (!response.ok) throw new Error(payload.error || payload.detail || "Analysis failed.");
+    const payload = response.payload;
+    if (!response.ok) {
+      const message = payload.detail || payload.error || "Analysis failed.";
+      throw new Error(response.status === 422 ? `${message} Try another public marketing site.` : message);
+    }
     state.currentAnalysis = payload;
     renderAnalysis(payload);
     refreshAccounts();
     refreshAdmin();
     showToast(`Analysis completed for ${payload.company.name}.`);
   } catch (error) {
-    setError(`${error.message} Try a public marketing site that does not block automated requests.`);
+    setError(error.message);
   } finally {
     setLoading(false);
   }
+}
+
+async function fetchJson(url, options) {
+  let response;
+  try {
+    response = await fetch(url, options);
+  } catch {
+    throw new Error("The application API is not reachable. Start the local server, or verify the deployed Cloudflare Worker is routing /api/* requests.");
+  }
+
+  let payload = {};
+  try {
+    payload = await response.json();
+  } catch {
+    payload = { error: "The application API returned a non-JSON response." };
+  }
+
+  return { ok: response.ok, status: response.status, payload };
 }
 
 function renderAnalysis(analysis) {
